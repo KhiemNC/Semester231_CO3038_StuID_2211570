@@ -1,5 +1,7 @@
 # paho-mqtt library
+# username and key are hide in config.py, and not push to github
 from adafruit_mqtt import Adafruit_MQTT
+import config
 import time
 import random
 
@@ -10,8 +12,8 @@ def callBackFunc_Message(feed_id, payload):
 
 # MAIN PROGRAM
 # Create an instance of Adafruit_MQTT class
-username = "khiemnc"
-key = "aio_gfRj207tWs0L1bTsap1nrWxyPKZ3"
+username = config.username
+key = config.key
 aio_feed_ids = ["button1", 	"button2"]
 khiem_client = Adafruit_MQTT(username, key, aio_feed_ids, callBackFunc_Message)
 khiem_client.setup()
@@ -25,7 +27,7 @@ sensor_type = 1
 while counter_runtime > 0:
     counter_runtime -= 1
     counter_loop -= 1
-    
+
     if counter_loop == 0:
         counter_loop = 5
         if sensor_type == 1:
