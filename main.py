@@ -15,12 +15,13 @@ def callBackFunc_Message(feed_id, payload):
 username = config.username
 key = config.key
 aio_feed_ids = ["button1", 	"button2"]
+aio_sensor_ids = ["sensor1", "sensor2", "sensor3"]
 khiem_client = Adafruit_MQTT(username, key, aio_feed_ids, callBackFunc_Message)
 khiem_client.setup()
 khiem_client.connect_and_loop()
 
 # Test publish data to Adafruit IO every 5 seconds
-counter_runtime = 10
+counter_runtime = 35
 counter_loop = 5
 sensor_type = 1
 
@@ -32,14 +33,14 @@ while counter_runtime > 0:
         counter_loop = 5
         if sensor_type == 1:
             value = random.randrange(-10, 50)
-            khiem_client.publish('sensor1', value)
+            khiem_client.publish(aio_sensor_ids[0], value)
             sensor_type = 2
         elif sensor_type == 2:
             value = random.randint(0, 500)
-            khiem_client.publish('sensor2', value)
+            khiem_client.publish(aio_sensor_ids[1], value)
             sensor_type = 3
         elif sensor_type == 3:
             value = random.randint(0, 100)
-            khiem_client.publish('sensor3', value)
+            khiem_client.publish(aio_sensor_ids[2], value)
             sensor_type = 1
     time.sleep(1)
