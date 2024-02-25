@@ -4,6 +4,9 @@ from adafruit_mqtt import Adafruit_MQTT
 import config
 import time
 import random
+from simple_AI import image_detector
+import cv2
+
 
 # FUNCTION DEFINITIONS
 def callBackFunc_Message(feed_id, payload):
@@ -21,15 +24,23 @@ khiem_client.setup()
 khiem_client.connect_and_loop()
 
 # Test publish data to Adafruit IO every 5 seconds
-counter_runtime = 35
+# counter_runtime = 36
 counter_loop = 5
 sensor_type = 1
+ai_result = ""
+pre_ai_result = ""
 
-while counter_runtime > 0:
-    counter_runtime -= 1
+while True:
+    # counter_runtime -= 1
     counter_loop -= 1
 
-    if counter_loop == 0:
+    if counter_loop == 3:
+        pre_ai_result = ai_result
+        ai_result = image_detector()
+        if pre_ai_result == ai_result:
+            print("Publish AI output: " + ai_result)
+            khiem_client.publish("ai", ai_result)
+    elif counter_loop <= 0:
         counter_loop = 5
         if sensor_type == 1:
             value = random.randrange(-10, 50)
@@ -43,4 +54,11 @@ while counter_runtime > 0:
             value = random.randint(0, 100)
             khiem_client.publish(aio_sensor_ids[2], value)
             sensor_type = 1
+
     time.sleep(1)
+
+    # Listen to the keyboard for presses.
+    keyboard_input = cv2.waitKey(1)
+    # 27 is the ASCII for the esc key on your keyboard.
+    if keyboard_input == 27:
+        break
