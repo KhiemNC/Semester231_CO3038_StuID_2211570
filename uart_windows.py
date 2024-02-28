@@ -26,11 +26,13 @@ def processData(client, data):
         client.publish("sensor3", splitData[2])
 
 mess = ""
+# Message in form: !1:<type>:<value>#
 def readSerial(client):
     bytesToRead = ser.inWaiting()
     if (bytesToRead > 0):
         global mess
         mess = mess + ser.read(bytesToRead).decode("UTF-8")
+        print("Get uart message: " + mess)
         while ("#" in mess) and ("!" in mess):
             start = mess.find("!")
             end = mess.find("#")
@@ -44,6 +46,3 @@ def readSerial(client):
 if getPort() != "None":
     ser = serial.Serial(port=getPort(), baudrate=115200)
     print(ser)
-
-# py -m serial.tools.list_ports
-# wine .exe
