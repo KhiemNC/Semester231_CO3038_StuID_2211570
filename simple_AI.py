@@ -15,7 +15,10 @@ class_names = open("AI_labels.txt", "r").read().splitlines()
 # For Windows
 camera = cv2.VideoCapture(0)
 # # For Linux
-# camera = cv2.VideoCapture('http://172.20.10.5:8000')
+# get ip
+IP_Adrr = '172.20.10.5'
+IP_Adrr += ':8000'
+camera = cv2.VideoCapture(IP_Adrr)
 
 def image_detector():
     # Grab the webcamera's image.
