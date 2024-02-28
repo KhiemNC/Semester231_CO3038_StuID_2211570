@@ -9,10 +9,13 @@ np.set_printoptions(suppress=True)
 model = load_model("AI_keras_Model.h5", compile=False)
 
 # Load the labels
-class_names = open("AI_labels.txt", "r").readlines()
+class_names = open("AI_labels.txt", "r").read().splitlines()
 
 # CAMERA can be 0 or 1 based on default camera of your computer
-camera = cv2.VideoCapture('http://192.168.1.8:8000')
+# For Windows
+camera = cv2.VideoCapture(0)
+# # For Linux
+# camera = cv2.VideoCapture('http://172.20.10.5:8000')
 
 def image_detector():
     # Grab the webcamera's image.
