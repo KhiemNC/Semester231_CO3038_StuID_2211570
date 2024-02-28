@@ -31,6 +31,7 @@ def processData(client, data):
         client.publish("sensor3", splitData[2])
 
 mess = ""
+# Message in form: @1:<type>:<value>#
 def readSerial(client):
     bytesToRead = ser.inWaiting()
     if (bytesToRead > 0):
