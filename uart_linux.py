@@ -1,20 +1,25 @@
 import serial.tools.list_ports
 
+# Open virtual COM in Linux
+# $ socat -d -d pty,raw,echo=0 pty,raw,echo=0
+
 def getPort():
-    ports = serial.tools.list_ports.comports()
-    N = len(ports)
-    commPort = "None"
-    for i in range(0, N):
-        port = ports[i]
-        strPort = str(port)
-        if "serial port" in strPort:
-            splitPort = strPort.split(" ")
-            commPort = (splitPort[0])
-            break
-    return "/dev/pts/6"
+    # ports = serial.tools.list_ports.comports()
+    # N = len(ports)
+    # commPort = "None"
+    # for i in range(0, N):
+    #     port = ports[i]
+    #     strPort = str(port)
+    #     if "serial port" in strPort:
+    #         splitPort = strPort.split(" ")
+    #         commPort = (splitPort[0])
+    #         break
+
+    # This for testing
+    return "/dev/pts/7"
 
 def processData(client, data):
-    data = data.replace("!", "")
+    data = data.replace("@", "")
     data = data.replace("#", "")
     splitData = data.split(":")
     print(splitData)
@@ -31,8 +36,9 @@ def readSerial(client):
     if (bytesToRead > 0):
         global mess
         mess = mess + ser.read(bytesToRead).decode("UTF-8")
-        while ("#" in mess) and ("!" in mess):
-            start = mess.find("!")
+        print("Get uart mess: " + mess)
+        while ("#" in mess) and ("@" in mess):
+            start = mess.find("@")
             end = mess.find("#")
             processData(client, mess[start:end + 1])
             if (end == len(mess)):
@@ -44,6 +50,3 @@ def readSerial(client):
 if getPort() != "None":
     ser = serial.Serial(port=getPort(), baudrate=115200)
     print(ser)
-
-# py -m serial.tools.list_ports
-# wine .exe
