@@ -1,6 +1,7 @@
 import sys
 from Adafruit_IO import MQTTClient
-from uart_windows import writeSerial
+# from uart_windows import writeSerial
+from uart_linux import writeSerial
 
 class Adafruit_MQTT:
     # CLASS VARIABLES
