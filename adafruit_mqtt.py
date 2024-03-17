@@ -1,5 +1,6 @@
 import sys
 from Adafruit_IO import MQTTClient
+from uart_windows import writeSerial
 
 class Adafruit_MQTT:
     # CLASS VARIABLES
@@ -47,6 +48,19 @@ class Adafruit_MQTT:
         print("Notification: Received: " + payload + " from " + feed_id)
         if self.callBackFunc != None:
             self.callBackFunc(feed_id, payload)
+        
+        # And then call the function writeSerial to send data to the microcontroller
+        # Cần triển khai kỹ hơn các trường hợp tránh gửi tín hiệu trùng lặp, vv. Sẽ thực hiện sau nếu có thời gian
+        if feed_id == "button1":
+            if payload == "0": # turn off button1
+                writeSerial("10")
+            elif payload == "1": # turn on button1
+                writeSerial("11")
+        elif feed_id == "button2":
+            if payload == "0": # turn off button2
+                writeSerial("20")
+            elif payload == "1":
+                writeSerial("21")
     def disconnected(self, client):
         # This will be called when the client disconnects.
         print("Notification: Disconnected from Adafruit IO!")

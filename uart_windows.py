@@ -43,6 +43,16 @@ def readSerial(client):
                 mess = mess[end+1:]
 
 # Open the serial port
+ser = None
 if getPort() != "None":
     ser = serial.Serial(port=getPort(), baudrate=115200)
     print(ser)
+
+# These functions are used to send data to the microcontroller
+# The writeSerial function sends data to the microcontroller when a message is received from server
+def writeSerial(data):
+    if ser == None:
+        print("Serial port is not open")
+    else:
+        print("Write to uart: " + data)
+        ser.write((str(data) + "#").encode("utf-8"))
