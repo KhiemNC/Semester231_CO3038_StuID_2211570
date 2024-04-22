@@ -110,7 +110,7 @@ public class MqttManager {
                 });
 
             } catch (MqttException ex) {
-                System.err.println("Exceptionst subscribing");
+                System.err.println("Exceptions subscribing");
                 ex.printStackTrace();
             }
         }
