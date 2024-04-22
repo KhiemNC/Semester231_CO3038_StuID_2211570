@@ -6,14 +6,27 @@ android {
     namespace 'com.example.dbiot'
     compileSdk 34
 
+    buildFeatures {
+        buildConfig true
+    }
+
     defaultConfig {
         applicationId "com.example.dbiot"
         minSdk 21
-        targetSdk 34
+        targetSdk 21
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // This code block is used to load the secrets.properties file
+        def secretsProperties = new Properties()
+        def secretsFile = rootProject.file("secrets.properties")
+        if (secretsFile.exists()) {
+            secretsProperties.load(new FileInputStream(secretsFile))
+        }
+        buildConfigField "String", "MQTT_USERNAME", "\"${secretsProperties.getProperty("MQTT_USERNAME")}\""
+        buildConfigField "String", "MQTT_PASSWORD", "\"${secretsProperties.getProperty("MQTT_PASSWORD")}\""
     }
 
     buildTypes {
@@ -37,4 +50,6 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
