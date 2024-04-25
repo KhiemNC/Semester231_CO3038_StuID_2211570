@@ -16,7 +16,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 
 public class MqttManager {
-    public MqttAndroidClient mqttAndroidClient;
+    public static MqttAndroidClient mqttAndroidClient;
 
     final String clientId;
     final String username;
@@ -38,20 +38,19 @@ public class MqttManager {
         this.arrayTopics = arrayTopics;
 
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
+        // Check connection
+        Log.d("TEST", "MQTT connected?");
         mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w("mqtt", s);
             }
-
             @Override
             public void connectionLost(Throwable throwable) {}
-
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 Log.w("Mqtt", mqttMessage.toString());
             }
-
             @Override
             public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {}
         });
