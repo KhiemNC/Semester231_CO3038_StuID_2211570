@@ -1,0 +1,3 @@
+/*
+Define styles used in the app
+ */

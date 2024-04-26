@@ -61,11 +61,10 @@ class MqttManager {
       print('MQTT client connected');
 
       // Subscribe to the topics
-      subcribeToTopics();
+      subscribeToTopics();
 
       // Set up a listener for incoming messages
       setupMessageListener();
-
     } else {
       print('ERROR: MQTT client connection failed - '
           'disconnecting, state is ${client!.connectionStatus?.state}');
@@ -73,7 +72,7 @@ class MqttManager {
     }
   }
 
-  void subcribeToTopics() {
+  void subscribeToTopics() {
     for (var feed in feeds) { client!.subscribe(feed, MqttQos.atLeastOnce); }
   }
 
@@ -92,4 +91,10 @@ class MqttManager {
   static void onSubscribedDefault(String topic) { print('Default Func: Subscribed topic: $topic'); }
   static void messageReceivedDefault(String topic, String message) {
     print('Default Func: Received message from $topic: $message');}
+
+  void publish(String topic, String message, bool retainval) {
+    final MqttClientPayloadBuilder builder = MqttClientPayloadBuilder();
+    builder.addString(message);
+    client?.publishMessage(topic, MqttQos.atLeastOnce, builder.payload!, retain: retainval);
+  }
 }
