@@ -77,14 +77,14 @@ class MqttManager {
   }
 
   void setupMessageListener() {
-  client!.updates?.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-    final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
-    final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+    client!.updates?.listen((List<MqttReceivedMessage<MqttMessage>> c) {
+      final MqttPublishMessage recMess = c[0].payload as MqttPublishMessage;
+      final pt = MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
 
-    // Call the callback function
-    onMessageCb(c[0].topic, pt);
-  });
-}
+      // Call the callback function
+      onMessageCb(c[0].topic, pt);
+    });
+  }
 
   static void onConnectedDefault() { print('Default Func: Connected'); }
   static void onDisconnectedDefault() { print('Default Func: Disconnected'); }
